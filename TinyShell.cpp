@@ -12,10 +12,6 @@
  ******************************************************************/
 
 
-
-
-
-
 #include "Analyse.h"
 #include "Command.h"
 #include "Process.h"

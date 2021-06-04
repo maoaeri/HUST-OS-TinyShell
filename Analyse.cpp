@@ -144,6 +144,10 @@ void sighandler(int signum) {
      * Đón tín hiệu ngắt Ctrl + C
      **/
     // printf("Caught signal %d, coming out...\n", signum);
+    if (hForeProcess != NULL) {
+        TerminateProcess(hForeProcess, 0);
+        hForeProcess = NULL;
+    }
     exit(1);
 }
 

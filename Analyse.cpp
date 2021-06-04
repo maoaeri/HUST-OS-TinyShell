@@ -137,22 +137,6 @@ char *combinePath(char **args, int start){
 
 
 /**
- * Đón tín hiệu ngắt Ctrl + C
- **/
-void sighandler(int signum) {
-    /**
-     * Đón tín hiệu ngắt Ctrl + C
-     **/
-    // printf("Caught signal %d, coming out...\n", signum);
-    if (hForeProcess != NULL) {
-        TerminateProcess(hForeProcess, 0);
-        hForeProcess = NULL;
-    }
-    exit(1);
-}
-
-
-/**
  * Đổi màu chữ (Có thể có hoặc k cơ bản là cũng k có ảnh hưởng gì chỉ là trang trí )
  * 
  **/

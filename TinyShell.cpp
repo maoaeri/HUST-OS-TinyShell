@@ -1,3 +1,21 @@
+/******************************************************************
+ * ------------------- WELCOME TO OUR TINYSHELL -------------------
+ *      @author: Le Trong Khanh, 
+ *               Pham Van Linh, 
+ *               Nguyen Van An, 
+ *               Ha Manh Hung, 
+ *               Le Hong Ung
+ *      @name of Program: Tiny Shell
+ *      @IT1-01-K64
+ *      @05-06-2021
+ * ----------------------------------------------------------------
+ ******************************************************************/
+
+
+
+
+
+
 #include "Analyse.h"
 #include "Command.h"
 #include "Process.h"

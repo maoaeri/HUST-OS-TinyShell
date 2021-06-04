@@ -2,17 +2,7 @@
 #include "Command.h"
 #include "Process.h"
 using namespace std;
-// HANDLE hForeProcess;
 
-
-// /* Các câu lệnh liên quan đến tiến trình */
-// int findProcessID(char *name_process);
-// int getProcessListAll();
-// int killProcessID(DWORD process_id);
-// int killProcess(char *name_process);
-// int suspendProcess(DWORD process_id);
-// int resumeProcess(DWORD process_id);
-// int createNewProcess(char **args);
 
 int main (int argc, char** argv) {
     char cur_dir[MAX_CWD_LENS];

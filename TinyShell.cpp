@@ -22,14 +22,14 @@ int main (int argc, char** argv) {
     /* Ctrl + C => STOP */
     signal(SIGINT, sighandler);
 
-    /* set màu chữ cho shell */
+    /* chọn màu chữ cho shell */
     char color[] = "green";
-    setColor(color);
 
     char *cmd = (char*)calloc(MAX_BUFFER_SIZE,sizeof(char)); /*Cấp phát bộ nhớ để nhập dòng lệnh command VD: cd, dir, ....*/
     
     int stop = 0; /**/
     while(!stop) { /* Nếu vẫn chưa stop thì thực hiện nhập và chạy lệnh */
+        setColor(color); /* Set màu chữ cho Shell */
         if(printPrompt(cur_dir) == -1){ /* Kiểm tra, in ra đường dẫn VD: C:\Users\Admin\> $ .....*/
             break;
         }

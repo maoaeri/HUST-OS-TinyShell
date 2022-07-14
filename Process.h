@@ -12,7 +12,7 @@
 #include <sys/types.h>
 #include <psapi.h>
 #include <tlhelp32.h>
-#include "Analyse.h"
+#include "Util.h"
 
 #define MAX_CWD_LENS 128
 #define MAX_BUFFER_SIZE 64
@@ -21,8 +21,8 @@
 
 
 /* Các câu lệnh liên quan đến tiến trình */
-int findProcessID(char *name_process);
-int getProcessListAll();
+int findProcessByName(char *name_process);
+int getAllProcesses();
 int killProcessID(DWORD process_id);
 int killProcess(char *name_process);
 int suspendProcess(DWORD process_id);

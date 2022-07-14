@@ -1,40 +1,28 @@
-/******************************************************************
- * ------------------- WELCOME TO OUR TINYSHELL -------------------
- *      @author: Le Trong Khanh, 
- *               Pham Van Linh, 
- *               Nguyen Van An, 
- *               Ha Manh Hung, 
- *               Le Hong Ung
- *      @name of Program: Tiny Shell
- *      @IT1-01-K64
- *      @05-06-2021
- * ----------------------------------------------------------------
- ******************************************************************/
-
-#include "Analyse.h"
-#include "Command.h"
-#include "Process.h"
 using namespace std;
+#include "Util_lib.h"
+#include "Command_lib.h"
+#include "Process_lib.h"
+
 
 
 int main (int argc, char** argv) {
     char cur_dir[MAX_CWD_LENS];
-    /* Ctrl + C => STOP */
-    signal(SIGINT, sighandler);
 
-    /* chọn màu chữ cho shell */
-    char color[] = "green";
 
-    char *cmd = (char*)calloc(MAX_BUFFER_SIZE,sizeof(char)); /*Cấp phát bộ nhớ để nhập dòng lệnh command VD: cd, dir, ....*/
+    char *cmd = (char*)calloc(MAX_BUFFER_SIZE,sizeof(char)); //memory allocation for command lines
     
-    int stop = 0; /**/
-    while(!stop) { /* Nếu vẫn chưa stop thì thực hiện nhập và chạy lệnh */
-        setColor(color); /* Set màu chữ cho Shell */
-        if(printPrompt(cur_dir) == -1){ /* Kiểm tra, in ra đường dẫn VD: C:\Users\Admin\> $ .....*/
+    int stop = 0;
+    printWelcomeText();
+    while(!stop) { 
+        // stop process when press ctrl+C
+        signal(SIGINT, signalhandler);
+        setShellWordColor(); 
+        if(printPrompt(cur_dir) == -1){ /* Check and print current dir. Eg: C:\Users\Admin\> $ .....*/
             break;
         }
         fflush(stdin);
-        cin.getline(cmd, MAX_BUFFER_SIZE); /* Nhập lệnh command */
+
+        cin.getline(cmd, MAX_BUFFER_SIZE); /* Command*/
         cin.clear();
         // cout << "HUST" << endl;
         // sleep(1); 

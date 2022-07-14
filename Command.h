@@ -26,7 +26,7 @@
 
 /* Các câu lệnh thực hiện command */
 int cd(char **args);
-int cls(char **args);
+int clr(char **args);
 int dir(char **args);
 int echo(char **args);
 int exit(char **args);
@@ -37,6 +37,7 @@ int date(char **args);
 int time_cmd(char **args);
 int pc(char **args);
 int calc(char **args);
+int envvar(char **args);
 int runbat(char **args);
 bool cmdCheck(char **args);
 

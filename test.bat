@@ -1,3 +1,3 @@
 cd
 dir
-calc
+pc fg calc

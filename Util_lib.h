@@ -23,18 +23,13 @@ using namespace std;
 
 
 /**
- * Sửa lỗi gõ cách câu lệnh
+ * Fix command
  * VD: C:\Users\Admin> $           cd E:\ 
  * ==> C:\Users\Admin> $ cd E:\
  * 
  **/
 void fixCmd(char* cmd){
-    /**
-     * Sửa lỗi gõ cách câu lệnh
-     * VD: C:\Users\Admin> $           cd E:\ 
-     * ==> C:\Users\Admin> $ cd E:\
-     * 
-     **/
+
     int length = strlen(cmd);
     int first;
     for(int i=0; i<length; i++){
@@ -70,7 +65,7 @@ void printWelcomeText(){
 
 /**
  * Print working directory 
- * (VD: C:\Users\Admin\.....> $ [command])
+ * (VD: C:\Users\Admin\.....> [command])
  **/
 int printPrompt(char *cur_directory){
     if(GetCurrentDirectory(MAX_CWD_LENS,cur_directory) == 0){
@@ -83,7 +78,7 @@ int printPrompt(char *cur_directory){
 }
 
 /**
- * Chia câu lệnh thành các đoạn ngăn cách bởi ký tự ngăn (" ","\t","\r","\n","\a")
+ * Separate commands by: (" ","\t","\r","\n","\a")
  * 
  **/
 char **separate_line(char *line){
@@ -124,10 +119,6 @@ char **separate_line(char *line){
  * VD: cd E:\New folder\ => [path] = 'E:\New'
  **/
 char *combinePath(char **args, int start){
-    /**
-     * Chuẩn hóa đường dẫn [path], tránh trường hợp có dấu ngăn cách như:
-     * VD: cd E:\New folder\ => [path] = 'E:\New'
-     **/
 
     char *path = (char *)calloc(MAX_CWD_LENS,sizeof(char)); /*Các thành phần không bị ngăn cách*/
     char *pivot = (char*)" "; /* Dấu ngăn cách */

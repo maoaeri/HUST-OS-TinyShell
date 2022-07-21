@@ -91,44 +91,33 @@ int help(char **args){
     if (args[1] == NULL)
 	{
 		printf("Type \"help -[command]\" for more information about a specific command.\n");
-		printf("Supported commands:\n cd\n date\n time\n dir\n clr\n echo\n del\n mkdir\n pc\n run\n exit\n ");
+		printf("Supported commands:\n cd\n date\n time\n dir\n clr\n echo\n del\n mkdir\n pc\n run\n env\n exit\n ");
 		printf("Usage:\n\t <command> [option]\n\tEXAMPLE: help cd\n");
-		printf("%-30s%s\n%-30s%s", " cd",
-			"Change current directory.",
-			" ", "EXAMPLES: \"cd C:/\"\n\n");
-		printf("%-30s%s\n%-30s%s", " date",
-			"Show today's date.",
-			" ", "EXAMPLES: \"date\"\n\n");
-		printf("%-30s%s\n%-30s%s", " time",
-			"Show the current time.",
-			" ", "EXAMPLES: \"time\"\n\n");
-		printf("%-30s%s\n%-30s%s", " dir",
-			"Show all files and folders in the current directory.",
-			" ", "EXAMPLES: \"dir\"\n\n");
-        printf("%-30s%s\n%-30s%s", " clr",
-			"Clear the console screen.",
-            " ", "EXAMPLES: \"clr\"\n\n");
-        printf("%-30s%s\n%-30s%s", " echo",
-			"Print a message on the screen.",
-            " ", "EXAMPLES: \"echo [message]\"\n\n");
-        printf("%-30s%s\n%-30s%s", " del",
-			"Delete a file or folder in the current directory.",
-            " ", "EXAMPLES: \"del [Folder/Filename]\"\n\n");
-        printf("%-30s%s\n%-30s%s", " mkdir",
-			"Make a new directory.",
-            " ", "EXAMPLES: \"mkdir[Foldername]\"\n\n");
-        printf("%-30s%s\n%-30s%s", " run",
-			"Run .bat file only.",
-            " ", "EXAMPLES: \"run [filename.bat]\"\n\n");
-        printf("%-30s%s\n%-30s%s\n%-30s%s", " pc",
+		printf("%-10s%s\n", " cd",
+			"Change current directory.");
+		printf("%-10s%s\n", " date",
+			"Show today's date.");
+		printf("%-10s%s\n", " time",
+			"Show the current time.");
+		printf("%-10s%s\n", " dir",
+			"Show all files and folders in the current directory.");
+        printf("%-10s%s\n", " clr",
+			"Clear the console screen.");
+        printf("%-10s%s\n", " echo",
+			"Print a message on the screen.");
+        printf("%-10s%s\n", " del",
+			"Delete a file or folder in the current directory.");
+        printf("%-10s%s\n", " mkdir",
+			"Make a new directory.");
+        printf("%-10s%s\n", " run",
+			"Run .bat file only.");
+        printf("%-10s%s\n%-10s%s\n", " pc",
             "Create process.", " ",
-            "You must enter the options in the 2nd argument, such as f and b",
-            " ", "EXAMPLES: \"pc bg\"\n\n");
-        printf("%-30s%s\n%-30s%s\n%-30s%s", " env",
+            "You must enter the options in the 2nd argument, such as f and b");
+        printf("%-10s%s\n%-10s%s\n", " env",
             "Change environment variables.", " ",
-            "You must enter the options in the 2nd and 3rd arguments, such as get and set",
-            " ", "EXAMPLES: \"pc bg\"\n\n");
-		printf("%-30s%s", " exit", "Exit this tiny shell :((((\n");
+            "You must enter the options in the 2nd and 3rd arguments, such as get and set");
+		printf("%-10s%s\n", " exit", "Exit this tiny shell :((((");
 	}
     else if(!strcmp(args[1],"cd")){
         cout << "Change the current directory." << endl;
@@ -193,7 +182,7 @@ int help(char **args){
     else if(!strcmp(args[1],"env")){
         cout << "Supported options:" << endl;
         cout << "        get [name]           Get environment variable by name" << endl;
-		cout << "        set [name=value]     Set environment variable" << endl;
+		cout << "        set [name] [value]     Set environment variable" << endl;
 		cout << "        get all              Get all environment variables" << endl;
         cout << "EXAMPLE: \"env set path1=C:\\Users\\Admin" << endl;
     }
@@ -206,20 +195,20 @@ int help(char **args){
 
 
 /**
- * Chuyển directory hiện tại sang directory mới
- * Câu lệnh: cd [path] 
- * cd : trả về đường dẫn directory hiện tại 
- * cd .. :trả về đường dẫn directory cha
- * cd [path]: chuyển current working directory sang directory mới
+ * Change current directory
+ * Command: cd [path] 
+ * cd : return current directory
+ * cd .. :return parent directory
+ * cd [path]: Change to path's directory
  * 
  **/
 int cd(char **args){
-    if(args[1] == NULL){ /* Nếu chỉ gõ lệnh cd */
+    if(args[1] == NULL){ /* cd */
         system("cd");
         cout << endl;
         return EXIT_SUCCESS;
     }
-    /* Nếu cd [path] */
+    /* \ cd [path] */
     else {
         char* path = combinePath(args,1); /* Chuẩn hóa path */
         if(SetCurrentDirectory(path)==FALSE){ /* Tìm đường dẫn nếu có */
@@ -232,17 +221,16 @@ int cd(char **args){
 }
 
 /**
- * Liệt kê các folder, file trong directory 
- * Câu lệnh: dir [path] 
+ * List all files and folders in directory
+ * Command: dir [path] 
  * 
  **/
 int dir(char **args){
-    /* Đống này chôm chỉa về sửa một chút t cx chưa hiểu hết :)))))) */
     char *cur_dir = (char*)malloc(MAX_CWD_LENS*sizeof(char));
     GetCurrentDirectory(MAX_CWD_LENS, cur_dir);
-	WIN32_FIND_DATA data;
-	_FILETIME time_lastwrite;
-	_SYSTEMTIME convert_time;
+	WIN32_FIND_DATA data;//Contains information about the file that is found by the FindFirstFile, FindFirstFileEx, or FindNextFile function.
+	_FILETIME time_lastwrite; //Contains a 64-bit value representing the number of 100-nanosecond intervals since January 1, 1601 (UTC).
+	_SYSTEMTIME convert_time; //Specifies a date and time, using individual members for the month, day, year, weekday, hour, minute, second, and millisecond. The time is either in coordinated universal time (UTC) or local time, depending on the function that is being called.
 	string date;
 	string time;
 	char *char_date = (char *)calloc(15, sizeof(char));
@@ -299,23 +287,18 @@ int dir(char **args){
 
 
 /**
- * Tạo folder trong directory hiện tại
- * Câu lệnh: mkdir [foldername]
+ * create new folder in current directory
+ * Command: mkdir [foldername]
  * 
  **/
 int mk_dir(char **args){
-    /**
-     * Tạo folder trong directory hiện tại
-     * Câu lệnh: mkdir [foldername]
-     * 
-     **/
-    if(args[1] == NULL){ /* Chỉ gõ lệnh mkdir */
+    if(args[1] == NULL){ /* Only mkdir */
         cout << "ERROR: Command mkdir need filename" << endl;
         cout << "Command: mkdir [filename]" << endl;
         cout << "Recommend: filename should not have any space" << endl;
         return 0;
     }
-    mkdir(args[1]); /* Lệnh mkdir tạo folder có sẵn */
+    mkdir(args[1]); /*  */
     return 0;
 }
 
@@ -390,8 +373,8 @@ int clr(char **args){
 
 
 /**
- * In ra màn hình ngày hiện tại
- * Câu lệnh: date
+ * Print current date
+ * Command: date
  * 
  **/
 int date(char **args){
@@ -411,8 +394,8 @@ int date(char **args){
 
 
 /**
- * In ra màn hình thời gian (giờ:phút:giây) hiện tại
- * Câu lệnh: time
+ * Print current time (hour:minute:second)
+ * Command: time
  * 
  */
 int time_cmd(char **args){
@@ -429,15 +412,11 @@ int time_cmd(char **args){
 
 /**
  * Delete file hoặc folder
- * Câu lệnh: del [file/foldername]
+ * Command: del [file/foldername]
  *  
  **/
 int del(char **args){
-    /**
-     * Delete file hoặc folder
-     * Câu lệnh: del [file/foldername]
-     *  
-     **/
+
     if(args[1] == NULL){
         cout << "ERROR: Command 'del' need path" << endl;
         cout << "Command: del [path]" << endl;
@@ -458,16 +437,11 @@ int del(char **args){
 
 
 /**
- * Thoát chương trình
- * Câu lệnh: exit
+ * Exit
+ * Command: exit
  * 
  **/
 int exit(char **args){
-    /**
-     * Thoát chương trình
-     * Câu lệnh: exit
-     * 
-     **/
     char* term = (char*)malloc(64*sizeof(char));
     if(args[1] != NULL){
         term = combinePath(args,1);
@@ -481,13 +455,13 @@ int exit(char **args){
 
 
 /**
- * Các lệnh với tiến trình
- * Câu lệnh: pc (Process)
+ * Commands with process
+ * command: pc (Process)
  * 
  **/
 int pc(char **args) {
     if (args[1] == NULL) {
-        cout << "ERROR: Too few argument" << endl;
+        cout << "ERROR: Too few arguments" << endl;
         return 0;
     }
     if (strcmp(args[1], "all") == 0) {
@@ -581,6 +555,7 @@ int calc(char **args){
  **/
 int envvar(char **args){
     char *val;
+    int bufsize = MAX_BUFFER_SIZE;
     if (args[1] == NULL) {
         cout << "ERROR: Too few arguments";
         return 0;
@@ -618,8 +593,43 @@ int envvar(char **args){
                     FreeEnvironmentStrings(lpvEnv);
                     return 0;
             } else {
-                val = getenv(args[2]);
-                cout << val;
+                    DWORD dwRet, dwErr;
+                    LPTSTR pszOldVal; 
+                    DWORD dwFlags=0;
+
+                    pszOldVal = (LPTSTR) malloc(bufsize*sizeof(TCHAR));
+                    if(NULL == pszOldVal)
+                    {
+                        printf("Out of memory\n");
+                        return FALSE;
+                    }
+
+                    dwRet = GetEnvironmentVariable(TEXT(args[2]), pszOldVal, bufsize*sizeof(TCHAR));
+
+                    if(0 == dwRet)
+                    {
+                        dwErr = GetLastError();
+                        if( ERROR_ENVVAR_NOT_FOUND == dwErr )
+                        {
+                            printf("Environment variable does not exist.\n");
+                        }
+                    }
+                    else if(bufsize < dwRet)
+                    {
+                        pszOldVal = (LPTSTR) realloc(pszOldVal, dwRet*sizeof(TCHAR));   
+                        if(NULL == pszOldVal)
+                        {
+                            printf("Out of memory\n");
+                        }
+                        dwRet = GetEnvironmentVariable(TEXT(args[2]), pszOldVal, dwRet);
+                        if(!dwRet)
+                        {
+                            printf("GetEnvironmentVariable failed (%d)\n", GetLastError());
+                        }
+                    } else {
+                        _tprintf(TEXT("%s=%s\n"), args[2],pszOldVal);
+                    }
+                    
             }
         }
         return 0;
@@ -629,7 +639,11 @@ int envvar(char **args){
             cout << "ERROR: Too few arguments";
             return 0;
         } else {
-            return putenv(args[2]); //overwrite var
+            if (! SetEnvironmentVariable(TEXT(args[2]), TEXT(args[3]))) 
+        {
+            printf("SetEnvironmentVariable failed (%d)\n", GetLastError()); 
+            return FALSE;
+        } //overwrite var
         }
         return 0;
     }
@@ -638,11 +652,11 @@ int envvar(char **args){
 
 
 //////////////////////////////////////////
-//////// Dành riêng cho file .bat ////////
+////////  .bat ////////
 //////////////////////////////////////////
 
 /**
- * Kiểm tra xem câu lệnh có được hỗ trợ trong shell không
+ * Check if the command is supported with this shell
  * 
  **/
 bool cmdCheck(char **args){
@@ -650,7 +664,7 @@ bool cmdCheck(char **args){
         return 0;
     }
     for(int i=0; i < size_of_command() ; i++){
-        if(strcmp(args[0],command[i]) == 0){ /* Kiểm tra xem người dùng nhập lệnh nào trong tập lệnh */
+        if(strcmp(args[0],command[i]) == 0){ 
             return true;
         } 
     }
@@ -669,7 +683,7 @@ int runbat(char **args){
     FILE *f=fopen(run_file,"rt");
     if(f==NULL)
 	{
-        printf("\nLoi doc file.\n");
+        printf("\nFile not found.\n");
         // getch();
         return 0;
 	}
